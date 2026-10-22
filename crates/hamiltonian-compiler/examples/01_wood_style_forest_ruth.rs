@@ -1,9 +1,9 @@
-use xeno_ir_parser::{QclAst, QclDialect};
-use wood_style_physics::WoodCellularLSystem;
-use nvidia_nim_microservices::NvidiaNimClient;
 use hamiltonian_compiler::HamiltonianCompiler;
-use webgpu_runtime::SunshineRuntime;
+use nvidia_nim_microservices::NvidiaNimClient;
 use std::collections::HashSet;
+use webgpu_runtime::SunshineRuntime;
+use wood_style_physics::WoodCellularLSystem;
+use xeno_ir_parser::{QclAst, QclDialect};
 
 #[tokio::main]
 async fn main() {
@@ -14,7 +14,7 @@ async fn main() {
 
     let nim_client = NvidiaNimClient::new().unwrap();
     let prompt = format!("Evolve Wood-Style Barrier using {}", l_system_sdf);
-    
+
     println!("Querying NVIDIA Nemotron NIM for Wood-Style Quantum Potential...");
     let generated_sdf = nim_client.generate_wood_style_sdf(&prompt).await.unwrap();
     println!("Generated Wood SDF: {}", generated_sdf);
@@ -26,13 +26,11 @@ async fn main() {
 
     let ast = QclAst {
         intent_name: "WoodStyleDeepForest".to_string(),
-        dialects: vec![
-            QclDialect::Classical {
-                sdf_expression: generated_sdf,
-                v_max: 500.0,
-                epsilon: 0.2,
-            }
-        ],
+        dialects: vec![QclDialect::Classical {
+            sdf_expression: generated_sdf,
+            v_max: 500.0,
+            epsilon: 0.2,
+        }],
         allocated_qubits: alloc,
         consumed_qubits: cons,
     };
