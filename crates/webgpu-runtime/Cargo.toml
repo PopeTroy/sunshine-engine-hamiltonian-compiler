@@ -1,0 +1,12 @@
+[package]
+name = "webgpu-runtime"
+version.workspace = true
+edition.workspace = true
+authors.workspace = true
+
+[dependencies]
+hamiltonian-compiler = { path = "../hamiltonian-compiler" }
+uesp-price-telemetry = { path = "../uesp-price-telemetry" }
+wgpu.workspace = true
+bytemuck.workspace = true
+tokio.workspace = true
