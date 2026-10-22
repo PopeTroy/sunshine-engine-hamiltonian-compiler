@@ -11,5 +11,3 @@ serde_json.workspace = true
 xeno-ir-parser = { workspace = true }
 wood-style-physics = { workspace = true }
 nvidia-nim-microservices = { workspace = true }
-webgpu-runtime = { workspace = true }
-tokio = { workspace = true }
