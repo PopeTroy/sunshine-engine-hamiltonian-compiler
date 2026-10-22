@@ -37,7 +37,7 @@ pub struct CompiledHamiltonianPipeline {
 pub struct HamiltonianCompiler;
 
 impl HamiltonianCompiler {
-    pub fn compile(ast: &QclAst, v_max: f64) -> CompiledHamiltonianPipeline {
+    pub fn compile(_ast: &QclAst, v_max: f64) -> CompiledHamiltonianPipeline {
         let coeffs = ForestRuthCoefficients::default();
         let dx: f64 = 0.1;
         let dt_cfl: f64 = dx * dx;
@@ -92,16 +92,15 @@ impl HamiltonianCompiler {
             },
         ];
 
-        let wgsl_code = format!(
-            r#"
+        let wgsl_code = r#"
 // Sunshine Engine - Forest-Ruth Order 4 Multi-Step Symplectic Integrator WGSL Shader
-struct Params {{
+struct Params {
     dt: f32,
     substep_weight: f32,
     grid_size: u32,
     v_max: f32,
     epsilon: f32,
-}};
+};
 
 @group(0) @binding(0) var<uniform> params: Params;
 @group(0) @binding(1) var<storage, read_write> psi_real: array<f32>;
@@ -109,9 +108,9 @@ struct Params {{
 @group(0) @binding(3) var<storage, read> potential: array<f32>;
 
 @compute @workgroup_size(128)
-fn forest_ruth_potential_kick(@builtin(global_invocation_id) id: vec3<u32>) {{
+fn forest_ruth_potential_kick(@builtin(global_invocation_id) id: vec3<u32>) {
     let idx = id.x;
-    if (idx >= params.grid_size) {{ return; }}
+    if (idx >= params.grid_size) { return; }
 
     let sdf_val = potential[idx];
     let v_reg = params.v_max * tanh(sdf_val / params.epsilon);
@@ -122,9 +121,9 @@ fn forest_ruth_potential_kick(@builtin(global_invocation_id) id: vec3<u32>) {{
     
     psi_real[idx] = r * cos(angle) - im * sin(angle);
     psi_imag[idx] = r * sin(angle) + im * cos(angle);
-}}
+}
 "#
-        );
+        .to_string();
 
         CompiledHamiltonianPipeline {
             wgsl_shader_code: wgsl_code,
