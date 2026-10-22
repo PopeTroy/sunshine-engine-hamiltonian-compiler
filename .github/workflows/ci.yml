@@ -2,40 +2,63 @@ name: Sunshine Engine Xeno-IR CI/CD Pipeline
 
 on:
   push:
-    branches: [ main, develop ]
+    branches: [ "main" ]
   pull_request:
-    branches: [ main ]
+    branches: [ "main" ]
+
+env:
+  CARGO_TERM_COLOR: always
+  CARGO_INCREMENTAL: 0
+  WGPU_BACKEND: gl
+  NVIDIA_NIM_BASE_URL: https://integrate.api.nvidia.com/v1
 
 jobs:
   build_test_nvidia_nim:
+    name: Build, Lint & Test (NVIDIA NIM / WebGPU)
     runs-on: ubuntu-latest
-    env:
-      NVIDIA_API_KEY: ${{ secrets.NVIDIA_API_KEY }}
-      NVIDIA_NIM_BASE_URL: "https://integrate.api.nvidia.com/v1"
-      WGPU_BACKEND: "gl"
-    steps:
-      - name: Checkout Code
-        uses: actions/checkout@v3
 
-      - name: Setup Rust Toolchain
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Install System Dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libxcb-render0-dev libxcb-shape0-dev libxcb-xfixes0-dev libxkbcommon-dev libwayland-dev
+
+      - name: Set up Rust Toolchain
         uses: dtolnay/rust-toolchain@stable
         with:
-          components: clippy, rustfmt
+          components: rustfmt, clippy
 
-      - name: Cargo Format Check
+      - name: Cache Cargo Registry & Build
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.cargo/bin/
+            ~/.cargo/registry/index/
+            ~/.cargo/registry/cache/
+            ~/.cargo/git/db/
+            target/
+          key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-cargo-
+
+      - name: Run cargo fmt Check
         run: cargo fmt --all -- --check
 
-      - name: Cargo Clippy Diagnostics
+      - name: Run cargo clippy Linter
         run: cargo clippy --all-targets --all-features -- -D warnings
 
-      - name: Build All Workspace Crates
-        run: cargo build --all-targets --verbose
-
-      - name: Run Unit & Integration Tests
-        run: cargo test --all --verbose
+      - name: Run Unit & Doc Tests
+        run: cargo test --all-targets --all-features
 
       - name: Run Wood Style Forest-Ruth Example
-        run: cargo run --example 01_wood_style_forest_ruth
+        env:
+          NVIDIA_API_KEY: ${{ secrets.NVIDIA_API_KEY }}
+        run: cargo run -p webgpu-runtime --example 01_wood_style_forest_ruth
 
       - name: Run Nemotron Shared RAG NPC Example
-        run: cargo run --example 02_nemotron_shared_rag_npcs
+        env:
+          NVIDIA_API_KEY: ${{ secrets.NVIDIA_API_KEY }}
+        run: cargo run -p model-npcs-rag --example 02_nemotron_shared_rag_npcs
