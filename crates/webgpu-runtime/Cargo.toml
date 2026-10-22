@@ -1,12 +1,18 @@
 [package]
 name = "webgpu-runtime"
 version.workspace = true
-edition.workspace = true
 authors.workspace = true
+edition.workspace = true
+license.workspace = true
 
 [dependencies]
-hamiltonian-compiler = { path = "../hamiltonian-compiler" }
-uesp-price-telemetry = { path = "../uesp-price-telemetry" }
+serde.workspace = true
+serde_json.workspace = true
 wgpu.workspace = true
 bytemuck.workspace = true
-tokio.workspace = true
+tokio = { version = "1.35", features = ["full"] }
+hamiltonian-compiler = { workspace = true }
+uesp-price-telemetry = { workspace = true }
+wood-style-physics = { workspace = true }
+nvidia-nim-microservices = { workspace = true }
+xeno-ir-parser = { workspace = true }
