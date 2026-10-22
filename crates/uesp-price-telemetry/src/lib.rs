@@ -54,3 +54,9 @@ impl TelemetryChain {
         frame
     }
 }
+
+impl Default for TelemetryChain {
+    fn default() -> Self {
+        Self::new()
+    }
+}
