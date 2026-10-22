@@ -56,8 +56,7 @@ impl CompiledHamiltonianPipeline {
             1.0
         };
 
-        let raw_amplitude =
-            stiffness_intensity * (player_interaction_speed as f32).clamp(0.1, 5.0);
+        let raw_amplitude = stiffness_intensity * (player_interaction_speed as f32).clamp(0.1, 5.0);
 
         HapticFeedbackResponse {
             haptic_amplitude: raw_amplitude.min(1.0),
