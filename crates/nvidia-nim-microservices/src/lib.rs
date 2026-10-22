@@ -36,7 +36,10 @@ impl NvidiaNimClient {
     pub async fn generate_wood_style_sdf(&self, prompt: &str) -> Result<String, String> {
         // If using mock key or testing offline, return a valid Wood-Style SDF directly
         if self.api_key == "mock_key" || self.api_key.is_empty() {
-            return Ok(format!("smooth_union(length(x) - 1.5, sin(10.0 * y), 0.2)/*{}*/", prompt));
+            return Ok(format!(
+                "smooth_union(length(x) - 1.5, sin(10.0 * y), 0.2)/*{}*/",
+                prompt
+            ));
         }
 
         let client = reqwest::Client::new();
@@ -55,15 +58,21 @@ impl NvidiaNimClient {
             .await
             .map_err(|e| format!("HttpError({:?})", e))?;
 
-        let text = res.text().await.map_err(|e| format!("TextError({:?})", e))?;
-        
+        let text = res
+            .text()
+            .await
+            .map_err(|e| format!("TextError({:?})", e))?;
+
         let parsed: NimResponse = serde_json::from_str(&text).unwrap_or_else(|_| NimResponse {
             id: Some("fallback".into()),
             choices: Some(vec![NimChoice {
                 index: 0,
                 message: NimMessage {
                     role: "assistant".into(),
-                    content: format!("smooth_union(length(x) - 1.5, sin(10.0 * y), 0.2)/*{}*/", prompt),
+                    content: format!(
+                        "smooth_union(length(x) - 1.5, sin(10.0 * y), 0.2)/*{}*/",
+                        prompt
+                    ),
                 },
             }]),
         });
