@@ -28,3 +28,10 @@ bytemuck = { version = "1.14", features = ["derive"] }
 sha2 = "0.10"
 pest = "2.7"
 pest_derive = "2.7"
+xeno-ir-parser = { path = "crates/xeno-ir-parser" }
+wood-style-physics = { path = "crates/wood-style-physics" }
+hamiltonian-compiler = { path = "crates/hamiltonian-compiler" }
+nvidia-nim-microservices = { path = "crates/nvidia-nim-microservices" }
+model-npcs-rag = { path = "crates/model-npcs-rag" }
+uesp-price-telemetry = { path = "crates/uesp-price-telemetry" }
+webgpu-runtime = { path = "crates/webgpu-runtime" }
