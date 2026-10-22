@@ -5,9 +5,13 @@ use sha2::{Digest, Sha256};
 pub struct UespPriceSchema {
     pub frame_id: u64,
     pub fidelity: f64,
+    pub quantum_fidelity: f64,
     pub entropy: f64,
+    pub system_entropy: f64,
     pub energy: f64,
+    pub total_energy: f64,
     pub position: f64,
+    pub spatial_coordinate: f64,
     pub previous_hash: String,
     pub ecta_sha256: String,
 }
@@ -43,9 +47,13 @@ impl TelemetryChain {
         let frame = UespPriceSchema {
             frame_id,
             fidelity,
+            quantum_fidelity: fidelity,
             entropy,
+            system_entropy: entropy,
             energy,
+            total_energy: energy,
             position,
+            spatial_coordinate: position,
             previous_hash: self.last_hash.clone(),
             ecta_sha256: new_hash.clone(),
         };
