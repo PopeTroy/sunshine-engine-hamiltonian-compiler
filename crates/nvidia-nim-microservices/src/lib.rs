@@ -43,7 +43,8 @@ pub struct NvidiaNimClient {
 
 impl NvidiaNimClient {
     pub fn new() -> Result<Self, NimError> {
-        let api_key = std::env::var("NVIDIA_API_KEY").unwrap_or_else(|_| "mock-nvapi-key".to_string());
+        let api_key =
+            std::env::var("NVIDIA_API_KEY").unwrap_or_else(|_| "mock-nvapi-key".to_string());
         let base_url = std::env::var("NVIDIA_NIM_BASE_URL")
             .unwrap_or_else(|| "https://integrate.api.nvidia.com/v1".to_string());
 
@@ -66,14 +67,21 @@ impl NvidiaNimClient {
         let request = NemotronRequest {
             model: "nvidia/nemotron-4-340b-instruct".to_string(),
             messages: vec![
-                ChatMessage { role: "system".to_string(), content: system_prompt.to_string() },
-                ChatMessage { role: "user".to_string(), content: user_prompt.to_string() },
+                ChatMessage {
+                    role: "system".to_string(),
+                    content: system_prompt.to_string(),
+                },
+                ChatMessage {
+                    role: "user".to_string(),
+                    content: user_prompt.to_string(),
+                },
             ],
             temperature: 0.2,
             max_tokens: 512,
         };
 
-        let res = self.client
+        let res = self
+            .client
             .post(format!("{}/chat/completions", self.base_url))
             .header("Authorization", format!("Bearer {}", self.api_key))
             .json(&request)
@@ -81,7 +89,8 @@ impl NvidiaNimClient {
             .await?;
 
         let body: NemotronResponse = res.json().await?;
-        body.choices.first()
+        body.choices
+            .first()
             .map(|c| c.message.content.clone())
             .ok_or_else(|| NimError::ParseError("Empty response from Nemotron NIM".to_string()))
     }
