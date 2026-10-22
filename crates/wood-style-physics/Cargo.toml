@@ -1,0 +1,9 @@
+[package]
+name = "wood-style-physics"
+version.workspace = true
+edition.workspace = true
+authors.workspace = true
+
+[dependencies]
+serde.workspace = true
+serde_json.workspace = true
