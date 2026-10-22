@@ -75,12 +75,9 @@ impl HamiltonianCompiler {
         let mut epsilon_val = 0.1;
 
         for dialect in &ast.dialects {
-            match dialect {
-                QclDialect::Classical { v_max, epsilon, .. } => {
-                    v_max_limit = *v_max;
-                    epsilon_val = *epsilon;
-                }
-                _ => {}
+            if let QclDialect::Classical { v_max, epsilon, .. } = dialect {
+                v_max_limit = *v_max;
+                epsilon_val = *epsilon;
             }
         }
 
