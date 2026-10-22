@@ -1,0 +1,12 @@
+WHITESPACE = _{ " " | "\t" | "\3" | "\r" | "\n" }
+program = { SOI ~ intent+ ~ EOI }
+
+intent = { "INTENT" ~ identifier ~ "{" ~ statement* ~ "}" }
+statement = _{ dialect_decl | tactical_field | ocular_directive }
+
+dialect_decl = { "DIALECT" ~ identifier ~ "{" "v_max" "=" ~ number ~ "," ~ "epsilon" "=" ~ number ~ "}" }
+tactical_field = { "TACTICAL_FIELD" ~ "{" ~ "density" "=" ~ number ~ "," ~ "diffusion" "=" ~ number ~ "}" }
+ocular_directive = { "OCULAR_PASS" ~ "{" ~ "resolution_scale" "=" ~ number ~ "}" }
+
+identifier = @{ ASCII_ALPHA ~ (ASCII_ALPHANUMERIC | "_")* }
+number = @{ ("-" | "+")? ~ ASCII_DIGIT+ ~ ("." ~ ASCII_DIGIT+)? }
