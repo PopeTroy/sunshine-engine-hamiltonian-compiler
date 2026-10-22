@@ -16,7 +16,7 @@ impl SunshineRuntime {
 
     pub fn execute_forest_ruth_step(
         &mut self,
-        pipeline: &CompiledHamiltonianPipeline,
+        _pipeline: &CompiledHamiltonianPipeline,
     ) -> UespPriceSchema {
         self.current_frame += 1;
 
@@ -27,5 +27,11 @@ impl SunshineRuntime {
 
         self.telemetry_chain
             .record_frame(self.current_frame, fidelity, entropy, energy, position)
+    }
+}
+
+impl Default for SunshineRuntime {
+    fn default() -> Self {
+        Self::new()
     }
 }
