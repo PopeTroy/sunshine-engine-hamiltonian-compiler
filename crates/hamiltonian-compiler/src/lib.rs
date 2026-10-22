@@ -25,7 +25,7 @@ pub struct ForestRuthSubStep {
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct HapticFeedbackResponse {
-    pub haptic_amplitude: f32,    // 0.0 to 1.0 scale for rumble motor
+    pub haptic_amplitude: f32,   // 0.0 to 1.0 scale for rumble motor
     pub trigger_resistance: f32, // For adaptive triggers
     pub is_clipped: bool,        // True if player exceeded stability bounds
 }
@@ -88,10 +88,10 @@ impl HamiltonianCompiler {
         let dx: f64 = 0.1;
         let dt_cfl: f64 = dx * dx;
         let dt_stiffness: f64 = 1.0 / v_max_limit;
-        
+
         // Physics-aware conditioning & stabilization check
         let stiffness_stable = v_max_limit <= 1000.0 && epsilon_val >= 0.05;
-        
+
         let calculated_dt = dt_cfl.min(dt_stiffness).min(base_dt);
         let dt: f64 = if stiffness_stable {
             calculated_dt
