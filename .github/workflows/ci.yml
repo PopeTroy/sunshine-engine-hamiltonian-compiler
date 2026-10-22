@@ -35,7 +35,7 @@ jobs:
         run: cargo test --all --verbose
 
       - name: Run Wood Style Forest-Ruth Example
-        run: cargo run -p hamiltonian-compiler --example 01_wood_style_forest_ruth
+        run: cargo run --example 01_wood_style_forest_ruth
 
       - name: Run Nemotron Shared RAG NPC Example
-        run: cargo run -p model-npcs-rag --example 02_nemotron_shared_rag_npcs
+        run: cargo run --example 02_nemotron_shared_rag_npcs
