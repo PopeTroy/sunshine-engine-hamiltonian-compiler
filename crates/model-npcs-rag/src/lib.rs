@@ -37,3 +37,9 @@ impl ModelNpcRagEngine {
             })
     }
 }
+
+impl Default for ModelNpcRagEngine {
+    fn default() -> Self {
+        Self::new()
+    }
+}
