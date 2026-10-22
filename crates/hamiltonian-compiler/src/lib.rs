@@ -1,5 +1,5 @@
+use serde::{Deserialize, Serialize};
 use xeno_ir_parser::QclAst;
-use serde::{Serialize, Deserialize};
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct ForestRuthCoefficients {
@@ -48,16 +48,52 @@ impl HamiltonianCompiler {
         let w0 = coeffs.w0;
 
         let sequence = vec![
-            ForestRuthSubStep { step_index: 1, operator: "Kinetic".into(), weight: w1 * 0.5, dt_substep: w1 * 0.5 * dt },
-            ForestRuthSubStep { step_index: 2, operator: "Potential".into(), weight: w1, dt_substep: w1 * dt },
-            ForestRuthSubStep { step_index: 3, operator: "Kinetic".into(), weight: (w1 + w0) * 0.5, dt_substep: (w1 + w0) * 0.5 * dt },
-            ForestRuthSubStep { step_index: 4, operator: "Potential".into(), weight: w0, dt_substep: w0 * dt },
-            ForestRuthSubStep { step_index: 5, operator: "Kinetic".into(), weight: (w1 + w0) * 0.5, dt_substep: (w1 + w0) * 0.5 * dt },
-            ForestRuthSubStep { step_index: 6, operator: "Potential".into(), weight: w1, dt_substep: w1 * dt },
-            ForestRuthSubStep { step_index: 7, operator: "Kinetic".into(), weight: w1 * 0.5, dt_substep: w1 * 0.5 * dt },
+            ForestRuthSubStep {
+                step_index: 1,
+                operator: "Kinetic".into(),
+                weight: w1 * 0.5,
+                dt_substep: w1 * 0.5 * dt,
+            },
+            ForestRuthSubStep {
+                step_index: 2,
+                operator: "Potential".into(),
+                weight: w1,
+                dt_substep: w1 * dt,
+            },
+            ForestRuthSubStep {
+                step_index: 3,
+                operator: "Kinetic".into(),
+                weight: (w1 + w0) * 0.5,
+                dt_substep: (w1 + w0) * 0.5 * dt,
+            },
+            ForestRuthSubStep {
+                step_index: 4,
+                operator: "Potential".into(),
+                weight: w0,
+                dt_substep: w0 * dt,
+            },
+            ForestRuthSubStep {
+                step_index: 5,
+                operator: "Kinetic".into(),
+                weight: (w1 + w0) * 0.5,
+                dt_substep: (w1 + w0) * 0.5 * dt,
+            },
+            ForestRuthSubStep {
+                step_index: 6,
+                operator: "Potential".into(),
+                weight: w1,
+                dt_substep: w1 * dt,
+            },
+            ForestRuthSubStep {
+                step_index: 7,
+                operator: "Kinetic".into(),
+                weight: w1 * 0.5,
+                dt_substep: w1 * 0.5 * dt,
+            },
         ];
 
-        let wgsl_code = format!(r#"
+        let wgsl_code = format!(
+            r#"
 // Sunshine Engine - Forest-Ruth Order 4 Multi-Step Symplectic Integrator WGSL Shader
 struct Params {{
     dt: f32,
@@ -87,7 +123,8 @@ fn forest_ruth_potential_kick(@builtin(global_invocation_id) id: vec3<u32>) {{
     psi_real[idx] = r * cos(angle) - im * sin(angle);
     psi_imag[idx] = r * sin(angle) + im * cos(angle);
 }}
-"#);
+"#
+        );
 
         CompiledHamiltonianPipeline {
             wgsl_shader_code: wgsl_code,
