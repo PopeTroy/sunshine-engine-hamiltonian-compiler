@@ -51,17 +51,17 @@ impl CompiledHamiltonianPipeline {
         player_interaction_speed: f64,
     ) -> HapticFeedbackResponse {
         let stiffness_intensity = if self.stiffness_stable {
-            (self.max_energy_bound / 500.0).clamp(0.0, 1.0)
+            (self.max_energy_bound / 500.0).clamp(0.0, 1.0) as f32
         } else {
-            1.0
+            1.0f32
         };
 
         let raw_amplitude = stiffness_intensity * (player_interaction_speed as f32).clamp(0.1, 5.0);
 
         HapticFeedbackResponse {
-            haptic_amplitude: raw_amplitude.min(1.0),
-            trigger_resistance: (stiffness_intensity * 0.8)
-                + (if !self.cfl_stable { 0.2 } else { 0.0 }),
+            haptic_amplitude: raw_amplitude.min(1.0f32),
+            trigger_resistance: (stiffness_intensity * 0.8f32)
+                + (if !self.cfl_stable { 0.2f32 } else { 0.0f32 }),
             is_clipped: !self.cfl_stable || !self.stiffness_stable,
         }
     }
@@ -80,6 +80,7 @@ impl HamiltonianCompiler {
                     v_max_limit = *v_max;
                     epsilon_val = *epsilon;
                 }
+                _ => {}
             }
         }
 
