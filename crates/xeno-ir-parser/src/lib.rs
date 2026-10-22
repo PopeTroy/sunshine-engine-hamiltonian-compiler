@@ -1,4 +1,4 @@
-use serde::{Serialize, Deserialize};
+use serde::{Deserialize, Serialize};
 use std::collections::HashSet;
 use thiserror::Error;
 
@@ -12,9 +12,19 @@ pub enum XenoTypeError {
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub enum QclDialect {
-    Ergonomic { max_dv_dt: f64 },
-    Classical { sdf_expression: String, v_max: f64, epsilon: f64 },
-    Quantum { dt: f64, trotter_order: u8, kappa: f64 },
+    Ergonomic {
+        max_dv_dt: f64,
+    },
+    Classical {
+        sdf_expression: String,
+        v_max: f64,
+        epsilon: f64,
+    },
+    Quantum {
+        dt: f64,
+        trotter_order: u8,
+        kappa: f64,
+    },
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
