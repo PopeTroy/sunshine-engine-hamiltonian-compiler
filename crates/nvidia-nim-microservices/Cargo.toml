@@ -1,0 +1,12 @@
+[package]
+name = "nvidia-nim-microservices"
+version.workspace = true
+edition.workspace = true
+authors.workspace = true
+
+[dependencies]
+reqwest.workspace = true
+serde.workspace = true
+serde_json.workspace = true
+tokio.workspace = true
+thiserror.workspace = true
