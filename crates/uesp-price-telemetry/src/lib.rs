@@ -1,5 +1,5 @@
-use serde::{Serialize, Deserialize};
-use sha2::{Sha256, Digest};
+use serde::{Deserialize, Serialize};
+use sha2::{Digest, Sha256};
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct UespPriceSchema {
@@ -19,12 +19,23 @@ pub struct TelemetryChain {
 impl TelemetryChain {
     pub fn new() -> Self {
         Self {
-            last_hash: "a2c95754a5c67fa8d2465b70e125abbc76c6ada11c59c3dd6b9c44a61d20a287".to_string(),
+            last_hash: "a2c95754a5c67fa8d2465b70e125abbc76c6ada11c59c3dd6b9c44a61d20a287"
+                .to_string(),
         }
     }
 
-    pub fn record_frame(&mut self, frame_id: u64, fidelity: f64, entropy: f64, energy: f64, position: f64) -> UespPriceSchema {
-        let raw = format!("{}:{}:{}:{}:{}:{}", frame_id, fidelity, entropy, energy, position, self.last_hash);
+    pub fn record_frame(
+        &mut self,
+        frame_id: u64,
+        fidelity: f64,
+        entropy: f64,
+        energy: f64,
+        position: f64,
+    ) -> UespPriceSchema {
+        let raw = format!(
+            "{}:{}:{}:{}:{}:{}",
+            frame_id, fidelity, entropy, energy, position, self.last_hash
+        );
         let mut hasher = Sha256::new();
         hasher.update(raw.as_bytes());
         let new_hash = format!("{:x}", hasher.finalize());
