@@ -1,5 +1,5 @@
 use nvidia_nim_microservices::NvidiaNimClient;
-use serde::{Serialize, Deserialize};
+use serde::{Deserialize, Serialize};
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct ModelNpcState {
@@ -26,8 +26,14 @@ impl ModelNpcRagEngine {
             npc.npc_id, npc.quantum_wavefunction_norm, context, input_speech
         );
 
-        self.nim_client.generate_wood_style_sdf(&prompt).await.unwrap_or_else(|_| {
-            format!("Mokuton Archon Guard [{}]: 'The deep forest responds to your quantum frequency.'", npc.npc_id)
-        })
+        self.nim_client
+            .generate_wood_style_sdf(&prompt)
+            .await
+            .unwrap_or_else(|_| {
+                format!(
+                    "Mokuton Archon Guard [{}]: 'The deep forest responds to your quantum frequency.'",
+                    npc.npc_id
+                )
+            })
     }
 }
