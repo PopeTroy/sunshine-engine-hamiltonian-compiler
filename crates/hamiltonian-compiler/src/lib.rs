@@ -42,11 +42,11 @@ impl Default for StructuralIntegrityProfile {
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct HapticFeedbackResponse {
-    pub haptic_amplitude: f32,    // 0.0 to 1.0 scale for rumble motor
-    pub trigger_resistance: f32,  // For adaptive triggers
-    pub is_clipped: bool,         // True if player exceeded stability bounds
-    pub is_fatal_impact: bool,    // True if Newtonian impact threshold is breached
-    pub triggers_demolition: bool,// True if structural yield strength is breached
+    pub haptic_amplitude: f32,     // 0.0 to 1.0 scale for rumble motor
+    pub trigger_resistance: f32,   // For adaptive triggers
+    pub is_clipped: bool,          // True if player exceeded stability bounds
+    pub is_fatal_impact: bool,     // True if Newtonian impact threshold is breached
+    pub triggers_demolition: bool, // True if structural yield strength is breached
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -63,7 +63,7 @@ pub struct CompiledHamiltonianPipeline {
     pub fokker_planck_drift: f64,
     pub quantum_fidelity: f64,
     pub max_impact_force: f64,
-    pub force_gradient_fusion_active: bool, // From UESP diagnostic audit optimization
+    pub force_gradient_fusion_active: bool, // From UESP diagnostic audit optimization[span_0](start_span)[span_0](end_span)
     pub structural_profile: StructuralIntegrityProfile,
 }
 
@@ -84,7 +84,8 @@ impl CompiledHamiltonianPipeline {
 
         let kinetic_energy_proxy = 0.5 * player_interaction_speed * player_interaction_speed;
         let is_fatal_impact = kinetic_energy_proxy > self.max_impact_force;
-        let triggers_demolition = kinetic_energy_proxy > (self.structural_profile.material_yield_strength / 1_000_000.0);
+        let triggers_demolition =
+            kinetic_energy_proxy > (self.structural_profile.material_yield_strength / 1_000_000.0);
 
         HapticFeedbackResponse {
             haptic_amplitude: if is_fatal_impact || triggers_demolition {
@@ -135,7 +136,7 @@ impl HamiltonianCompiler {
         let fokker_planck_drift = 0.05 * (v_max_limit / epsilon_val);
         let quantum_fidelity = 1.0 / (1.0 + (epsilon_val * epsilon_val));
         let max_impact_force = 450.0;
-        let force_gradient_fusion_active = true; // Enabled per UESP diagnostic audit
+        let force_gradient_fusion_active = true; // Enabled per UESP diagnostic audit[span_1](start_span)[span_1](end_span)
         let structural_profile = StructuralIntegrityProfile::default();
 
         let w1 = coeffs.w1;
