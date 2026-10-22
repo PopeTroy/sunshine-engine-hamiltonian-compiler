@@ -43,7 +43,8 @@ pub struct NvidiaNimClient {
 
 impl NvidiaNimClient {
     pub fn new() -> Result<Self, NimError> {
-        let api_key = std::env::var("NVIDIA_API_KEY").unwrap_or_else(|_| "mock-nvapi-key".to_string());
+        let api_key =
+            std::env::var("NVIDIA_API_KEY").unwrap_or_else(|_| "mock-nvapi-key".to_string());
         let base_url = std::env::var("NVIDIA_NIM_BASE_URL")
             .unwrap_or_else(|_| "https://integrate.api.nvidia.com/v1".to_string());
 
