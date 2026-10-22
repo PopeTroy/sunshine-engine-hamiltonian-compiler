@@ -39,10 +39,10 @@ pub struct HamiltonianCompiler;
 impl HamiltonianCompiler {
     pub fn compile(ast: &QclAst, v_max: f64) -> CompiledHamiltonianPipeline {
         let coeffs = ForestRuthCoefficients::default();
-        let dx = 0.1;
-        let dt_cfl = dx * dx;
-        let dt_stiffness = 1.0 / v_max;
-        let dt = dt_cfl.min(dt_stiffness).min(0.002);
+        let dx: f64 = 0.1;
+        let dt_cfl: f64 = dx * dx;
+        let dt_stiffness: f64 = 1.0 / v_max;
+        let dt: f64 = dt_cfl.min(dt_stiffness).min(0.002);
 
         let w1 = coeffs.w1;
         let w0 = coeffs.w0;
