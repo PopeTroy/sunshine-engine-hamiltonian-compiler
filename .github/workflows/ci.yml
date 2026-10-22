@@ -1,0 +1,32 @@
+name: Sunshine Engine Xeno-IR CI/CD Pipeline
+​on:
+push:
+branches: [ main, develop ]
+pull_request:
+branches: [ main ]
+​jobs:
+build_test_nvidia_nim:
+runs-on: ubuntu-latest
+env:
+NVIDIA_API_KEY: ${{ secrets.NVIDIA_API_KEY }}
+NVIDIA_NIM_BASE_URL: "https://integrate.api.nvidia.com/v1"
+WGPU_BACKEND: "gl"
+steps:
+- name: Checkout Code
+uses: actions/checkout@v3
+​- name: Setup Rust Toolchain
+uses: dtolnay/rust-toolchain@stable
+with:
+components: clippy, rustfmt
+​- name: Cargo Format Check
+run: cargo fmt --all -- --check
+​- name: Cargo Clippy Diagnostics
+run: cargo clippy --all-targets --all-features -- -D warnings
+​- name: Build All Workspace Crates
+run: cargo build --all-targets --verbose
+​- name: Run Unit & Integration Tests
+run: cargo test --all --verbose
+​- name: Run Wood Style Forest-Ruth Example
+run: cargo run -p hamiltonian-compiler --example 01_wood_style_forest_ruth
+​- name: Run Nemotron Shared RAG NPC Example
+run: cargo run -p model-npcs-rag --example 02_nemotron_shared_rag_npcs
