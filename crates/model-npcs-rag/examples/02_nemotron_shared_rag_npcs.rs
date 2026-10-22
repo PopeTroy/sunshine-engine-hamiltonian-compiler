@@ -5,7 +5,7 @@ async fn main() {
     println!("=== [Sunshine Engine] Model NPCs Shared RAG Integration ===");
 
     let rag_engine = ModelNpcRagEngine::new();
-    
+
     let ninja_npc = ModelNpcState {
         npc_id: "Mokuton_Grandmaster_Archon".into(),
         quantum_wavefunction_norm: 0.999998,
