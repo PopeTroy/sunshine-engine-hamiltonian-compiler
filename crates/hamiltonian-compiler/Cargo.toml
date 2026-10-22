@@ -1,14 +1,15 @@
 [package]
 name = "hamiltonian-compiler"
 version.workspace = true
-edition.workspace = true
 authors.workspace = true
+edition.workspace = true
+license.workspace = true
 
 [dependencies]
-xeno-ir-parser = { path = "../xeno-ir-parser" }
-wood-style-physics = { path = "../wood-style-physics" }
-nvidia-nim-microservices = { path = "../nvidia-nim-microservices" }
-uesp-price-telemetry = { path = "../uesp-price-telemetry" }
 serde.workspace = true
 serde_json.workspace = true
-thiserror.workspace = true
+xeno-ir-parser = { workspace = true }
+wood-style-physics = { workspace = true }
+nvidia-nim-microservices = { workspace = true }
+webgpu-runtime = { workspace = true }
+tokio = { workspace = true }
