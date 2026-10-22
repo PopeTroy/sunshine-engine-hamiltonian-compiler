@@ -1,0 +1,30 @@
+[workspace]
+resolver = "2"
+members = [
+    "crates/xeno-ir-parser",
+    "crates/hamiltonian-compiler",
+    "crates/webgpu-runtime",
+    "crates/uesp-price-telemetry",
+    "crates/nvidia-nim-microservices",
+    "crates/model-npcs-rag",
+    "crates/wood-style-physics",
+]
+
+[workspace.package]
+version = "3.1.0"
+authors = ["Celsius Tech Media Group <info@celsiusmediagroup.co.za>"]
+edition = "2021"
+license = "MIT OR Apache-2.0"
+repository = "https://github.com/celsiustechmediagroup/sunshine-engine-hamiltonian-compiler"
+
+[workspace.dependencies]
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+thiserror = "1.0"
+tokio = { version = "1.35", features = ["full"] }
+reqwest = { version = "0.11", features = ["json"] }
+wgpu = "0.19"
+bytemuck = { version = "1.14", features = ["derive"] }
+sha2 = "0.10"
+pest = "2.7"
+pest_derive = "2.7"
